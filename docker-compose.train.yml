@@ -1,0 +1,34 @@
+version: "3.5"
+services:
+  maven:
+    build: ./prediction-job
+    container_name: maven
+    expose:
+      - "8099"
+    ports:
+        - "8099:8099"
+    environment:
+      - "SPARK_MASTER=spark-master:7077"
+    volumes:
+      - ./prediction-job:/prediction-job
+    networks:
+      - fiware
+  spark-master-train:
+    image: bde2020/spark-master:2.4.4-hadoop2.7
+    container_name: spark-master-train
+    ports:
+      - "8080:8080"
+      - "7077:7077"
+      - "9001:9001"
+      - "4040:4040"
+    environment:
+      - INIT_DAEMON_STEP=setup_spark
+      - "constraint:node==spark-master"
+    networks:
+         - fiware
+    command: bash -c "sh /prediction-job/spark-jobs/run-spark-jobs-train.sh"
+    volumes:
+      - ./prediction-job:/prediction-job
+     
+networks:
+  fiware:
