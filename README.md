@@ -6,12 +6,12 @@ https://datosabiertos.malaga.eu/dataset/ocupacion-aparcamientos-publicos-municip
 https://datosabiertos.malaga.eu/dataset/ubicacion-de-aparcamientos-publicos-municipales
 
 * Clone this project
-```shell
-git clone https://github.com/ging/BootCamp-FIWARE-ML
-cd BootCamp-FIWARE-ML
-```
+
 
 * Load and save the `prediction-job/malaga_parking.csv` [from external source](https://drive.upm.es/s/hA1jEQChEwZyVQj)
+```shell
+curl -o prediction-job/malaga_parking.csv https://drive.upm.es/s/hA1jEQChEwZyVQj/download
+```
 
 * If the model already exists (`prediction-job/model`) just build de project packages
 ```shell

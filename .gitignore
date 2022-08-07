@@ -1,5 +1,6 @@
 prediction-job/target/*
 prediction-job/.idea
+prediction-job/bin
 prediction-job/*.csv
 web/node_modules/*
 web/.env

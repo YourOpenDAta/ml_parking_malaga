@@ -14,4 +14,4 @@ done
 echo "Package generated"
 
 
-/spark/bin/spark-submit --driver-memory 4g –executor-memory 2g –executor-cores 4 --class  org.fiware.cosmos.orion.spark.connector.prediction.TrainingJob --master  spark://spark-master:7077 --deploy-mode client $FILE --conf "spark.driver.extraJavaOptions=-Dlog4jspark.root.logger=WARN,console"
+/spark/bin/spark-submit --driver-memory 4g --class  org.fiware.cosmos.orion.spark.connector.prediction.TrainingJob --master  spark://spark-master:7077 --deploy-mode client $FILE --conf "spark.driver.extraJavaOptions=-Dlog4jspark.root.logger=WARN,console"
