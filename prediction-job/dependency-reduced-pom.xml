@@ -186,7 +186,7 @@
     <dependency>
       <groupId>org.apache.spark</groupId>
       <artifactId>spark-core_2.11</artifactId>
-      <version>2.4.3</version>
+      <version>2.4.5</version>
       <scope>provided</scope>
       <exclusions>
         <exclusion>
@@ -390,7 +390,7 @@
     <dependency>
       <groupId>org.apache.spark</groupId>
       <artifactId>spark-mllib_2.11</artifactId>
-      <version>2.4.3</version>
+      <version>2.4.5</version>
       <scope>provided</scope>
       <exclusions>
         <exclusion>
@@ -426,7 +426,7 @@
     <dependency>
       <groupId>org.apache.spark</groupId>
       <artifactId>spark-streaming_2.11</artifactId>
-      <version>2.4.3</version>
+      <version>2.4.5</version>
       <scope>provided</scope>
       <exclusions>
         <exclusion>
@@ -442,7 +442,7 @@
     <dependency>
       <groupId>org.apache.spark</groupId>
       <artifactId>spark-sql_2.11</artifactId>
-      <version>2.4.3</version>
+      <version>2.4.5</version>
       <scope>provided</scope>
       <exclusions>
         <exclusion>
@@ -519,7 +519,7 @@
     <scala.binary.version>2.11</scala.binary.version>
     <play2.version>2.4.6</play2.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <spark.version>2.4.3</spark.version>
+    <spark.version>2.4.5</spark.version>
   </properties>
 </project>
 

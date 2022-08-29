@@ -62,7 +62,7 @@ RUN mkdir -p /usr/share/maven /usr/share/maven/ref \
   && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn
 
 
-RUN wget -P /tmp https://github.com/ging/fiware-cosmos-orion-spark-connector/releases/download/FIWARE_7.7/orion.spark.connector-1.0.jar
+RUN wget -P /tmp https://github.com/ging/fiware-cosmos-orion-spark-connector/releases/download/FIWARE_8.1/orion.spark.connector-1.2.2.1.jar
 
 ENV MAVEN_HOME /usr/share/maven
 ENV MAVEN_CONFIG "$USER_HOME_DIR/.m2"
@@ -74,7 +74,7 @@ COPY requirements.txt ./
 COPY mvn-entrypoint.sh /usr/local/bin/mvn-entrypoint.sh
 COPY settings-docker.xml /usr/share/maven/ref/
 RUN pip install --no-cache-dir -r requirements.txt
-RUN mvn install:install-file -Dfile=/tmp/orion.spark.connector-1.0.jar -DgroupId=org.fiware.cosmos -DartifactId=orion.spark.connector -Dversion=1.0 -Dpackaging=jar
+RUN mvn install:install-file -Dfile=/tmp/orion.spark.connector-1.2.2.1.jar -DgroupId=org.fiware.cosmos -DartifactId=orion.spark.connector -Dversion=1.2.2.1 -Dpackaging=jar
 RUN cd ./prediction-job
 
 CMD ["python","-u","./runPTP.py"]

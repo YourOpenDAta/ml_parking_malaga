@@ -28,7 +28,7 @@ docker compose -f docker-compose.train.yml up -d
 
 * Run the whole scenario
 ```shell
-docker-compose up -d
+docker compose up -d
 ```
 
 * Open browser in http://localhost:3000

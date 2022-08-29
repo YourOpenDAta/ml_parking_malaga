@@ -38,7 +38,7 @@ services:
     volumes:
       - ./entities:/entities
   spark-master:
-    image: bde2020/spark-master:2.4.4-hadoop2.7
+    image: bde2020/spark-master:2.4.5-hadoop2.7
     container_name: spark-master
     ports:
       - "8080:8080"
