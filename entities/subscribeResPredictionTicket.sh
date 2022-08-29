@@ -1,15 +1,12 @@
-curl -v  orion:1026/v2/subscriptions -s -S -H 'Content-Type: application/json' -d @- <<EOF
+curl -v  orion:1026/ngsi-ld/v1/subscriptions/ -s -S -H 'Content-Type: application/ld+json' -d @- <<EOF
 {
-  "description": "A subscription to get ticket predictions",
-  "subject": {
-	"entities": [
-  	{
-    	"id": "ResTicketPrediction1",
-    	"type": "ResTicketPrediction"
-  	}
-	],
-	"condition": {
-  	"attrs": [
+  "description": "A subscription to get response predictions",
+  "type": "Subscription",
+  "entities": [{
+    "id": "urn:ngsi-ld:ResTicketPrediction1",
+    "type": "ResTicketPrediction"
+    }],
+  "watchedAttributes": [
       "predictionId",
       "socketId",
       "predictionValue",
@@ -17,23 +14,16 @@ curl -v  orion:1026/v2/subscriptions -s -S -H 'Content-Type: application/json' -
       "weekday",
       "time",
       "month"
-  	]
-	}
-  },
+    ],
   "notification": {
-	"http": {
-  	"url": "http://web:3000/notify"
-	},
-	"attrs": [
-      "predictionId",
-      "socketId",
-      "predictionValue",
-      "name",
-      "weekday",
-      "time",
-      "month"
-	]
+    "endpoint": {
+      "uri": "http://web:3000/notify",
+      "accept": "application/json"
+    }
   },
-  "expires": "2040-01-01T14:00:00.00Z"
+    "@context": [
+        "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ]
 }
 EOF
+

@@ -12,15 +12,21 @@ services:
       - MONGO_INITDB_ROOT_USERNAME=root
       - MONGO_INITDB_ROOT_PASSWORD=example
   orion:
+    image: fiware/orion-ld:1.0.1
     container_name: orion
-    image: fiware/orion
-    links:
+    depends_on:
       - mongo
+    command: -dbhost mongo -dbuser root -dbpwd example #-logLevel DEBUG
     ports:
       - "1026:1026"
-    command: -dbhost mongo -dbuser root -dbpwd example #-logLevel DEBUG
+    environment:
+      ORIONLD_MONGO_USER: root
+      ORIONLD_MONGO_PASSWORD: example
     networks:
       - fiware
+    restart: unless-stopped
+    healthcheck:
+      test: curl --fail -s http://orion:1026/version || exit 1
   web:
     container_name: web
     build:
@@ -33,7 +39,7 @@ services:
       - fiware
     command: bash -c "sleep 10 && sh /entities/createPredictionEntities.sh && sh /entities/subscribeReqPredictionTicket.sh && sh /entities/subscribeResPredictionTicket.sh && npm start"
     environment:
-      - URL_CB=http://orion:1026/v2/entities/ReqTicketPrediction1/attrs
+      - URL_CB=http://orion:1026/ngsi-ld/v1/entities/urn:ngsi-ld:ReqTicketPrediction1/attrs
       - MONGO_URI=mongodb://root:example@mongo:27017/sth_test?authSource=admin
     volumes:
       - ./entities:/entities

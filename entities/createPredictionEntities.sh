@@ -1,76 +1,81 @@
-curl orion:1026/v2/entities -s -S -H 'Content-Type: application/json' -d @- <<EOF
+curl orion:1026/ngsi-ld/v1/entities -s -S -H 'Content-Type: application/ld+json' -d @- <<EOF
 {
-  "id": "ReqTicketPrediction1",
-  "type": "ReqTicketPrediction",
-  "predictionId": {
-    "value": 0,
-    "type": "String"
-  },
-  "socketId": {
-    "value": 0,
-    "type": "String"
-  },
-  "name":{
-    "value": 0,
-    "type": "String"
-  },
-  "year":{
-    "value": 0,
-    "type": "Integer"
-  },
-  "month":{
-    "value": 0,
-    "type": "Integer"
-  },
-  "day":{
-    "value": 0,
-    "type": "Integer"
-  },
-  "weekday": {
-    "value": 0,
-    "type": "Integer"
-  },
-  "time": {
-    "value": 0,
-    "type": "Integer"
-  }
+    "id": "urn:ngsi-ld:ReqTicketPrediction1",
+    "type": "ReqTicketPrediction",
+    "predictionId": {
+        "value": 0,
+        "type": "Property"
+      },
+      "socketId": {
+        "value": 0,
+        "type": "Property"
+      },
+      "name":{
+        "value": 0,
+        "type": "Property"
+      },
+      "year":{
+        "value": 0,
+        "type": "Property"
+      },
+      "month":{
+        "value": 0,
+        "type": "Property"
+      },
+      "day":{
+        "value": 0,
+        "type": "Property"
+      },
+      "weekday": {
+        "value": 0,
+        "type": "Property"
+      },
+      "time": {
+        "value": 0,
+        "type": "Property"
+      },
+    "@context": [
+      "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ]
 }
 EOF
 
 
 
-
-curl orion:1026/v2/entities -s -S -H 'Content-Type: application/json' -d @- <<EOF
+curl orion:1026/ngsi-ld/v1/entities -s -S -H 'Content-Type: application/ld+json' -d @- <<EOF
 {
-  "id": "ResTicketPrediction1",
+  "id": "urn:ngsi-ld:ResTicketPrediction1",
   "type": "ResTicketPrediction",
   "predictionId": {
     "value": "0",
-    "type": "String"
+    "type": "Property"
   },
   "socketId": {
     "value": 0,
-    "type": "String"
+    "type": "Property"
   },
   "predictionValue":{
     "value": 0,
-    "type": "Integer"
+    "type": "Property"
   },
   "name":{
     "value": 0,
-    "type": "String"
+    "type": "Property"
   },
   "weekday":{
     "value": 0,
-    "type": "Integer"
+    "type": "Property"
   },
   "time": {
     "value": 0,
-    "type": "Integer"
+    "type": "Property"
   },
   "month": {
     "value": 0,
-    "type": "Integer"
-  }
+    "type": "Property"
+  },
+  "@context": [
+    "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+  ]
 }
 EOF

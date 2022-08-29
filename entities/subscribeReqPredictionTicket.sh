@@ -1,15 +1,12 @@
-curl -v  orion:1026/v2/subscriptions -s -S -H 'Content-Type: application/json' -d @- <<EOF
+curl -v  orion:1026/ngsi-ld/v1/subscriptions/ -s -S -H 'Content-Type: application/ld+json' -d @- <<EOF
 {
-  "description": "A subscription to get ticket predictions",
-  "subject": {
-	"entities": [
-  	{
-    	"id": "ReqTicketPrediction1",
-    	"type": "ReqTicketPrediction"
-  	}
-	],
-	"condition": {
-  	"attrs": [
+  "description": "A subscription to get request predictions",
+  "type": "Subscription",
+  "entities": [{
+    "id": "urn:ngsi-ld:ReqTicketPrediction1",
+    "type": "ReqTicketPrediction"
+    }],
+  "watchedAttributes": [
       "predictionId",
       "socketId",
       "name",
@@ -18,24 +15,15 @@ curl -v  orion:1026/v2/subscriptions -s -S -H 'Content-Type: application/json' -
       "day",
       "weekday",
       "time"
-  	]
-	}
-  },
+    ],
   "notification": {
-	"http": {
-  	"url": "http://spark-master:9001"
-	},
-	"attrs": [
-      "predictionId",
-      "socketId",
-      "name",
-      "year",
-      "month",
-      "day",
-      "weekday",
-      "time"
-	]
+    "endpoint": {
+      "uri": "http://spark-master:9001",
+      "accept": "application/json"
+    }
   },
-  "expires": "2040-01-01T14:00:00.00Z"
+    "@context": [
+        "https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld"
+    ]
 }
 EOF

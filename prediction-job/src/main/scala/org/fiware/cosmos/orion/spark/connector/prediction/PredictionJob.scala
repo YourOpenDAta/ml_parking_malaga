@@ -1,7 +1,7 @@
 package org.fiware.cosmos.orion.spark.connector.prediction
 
 import org.apache.spark.streaming.{Seconds, StreamingContext}
-import org.fiware.cosmos.orion.spark.connector.{ContentType, HTTPMethod, OrionReceiver, OrionSink, OrionSinkObject}
+import org.fiware.cosmos.orion.spark.connector.{ContentType, HTTPMethod, NGSILDReceiver, OrionSink, OrionSinkObject}
 import org.apache.spark.ml.{Pipeline, PipelineModel}
 import org.apache.spark.ml.feature.{VectorAssembler}
 import org.apache.spark.ml.classification.{RandomForestClassificationModel}
@@ -9,19 +9,20 @@ import org.apache.spark.sql.SparkSession
 
 case class PredictionResponse(socketId: String, predictionId: String, predictionValue: Int, name: String, weekday: Int, hour: Int, month: Int) {
   override def toString :String = s"""{
-  "socketId": { "value": "${socketId}", "type": "String"},
-  "predictionId": { "value":"${predictionId}", "type": "String"},
-  "predictionValue": { "value":${predictionValue}, "type": "Integer"},
-  "name": { "value":"${name}", "type": "String"},
-  "weekday": { "value":${weekday}, "type": "Integer"},
-  "time": { "value": ${hour}, "type": "Integer"},
-  "month": { "value": ${month}, "type": "Integer"}
+  "socketId": { "value": "${socketId}", "type": "Property"},
+  "predictionId": { "value":"${predictionId}", "type": "Property"},
+  "predictionValue": { "value":${predictionValue}, "type": "Property"},
+  "name": { "value":"${name}", "type": "Property"},
+  "weekday": { "value":${weekday}, "type": "Property"},
+  "time": { "value": ${hour}, "type": "Property"},
+  "month": { "value": ${month}, "type": "Property"}
   }""".trim()
 }
 case class PredictionRequest(name: String, weekday: Int, hour: Int, month: Int, socketId: String, predictionId: String)
 
 object PredictionJob {
-  final val URL_CB = "http://orion:1026/v2/entities/ResTicketPrediction1/attrs"
+
+  final val URL_CB = "http://orion:1026/ngsi-ld/v1/entities/urn:ngsi-ld:ResTicketPrediction1/attrs"
   final val CONTENT_TYPE = ContentType.JSON
   final val METHOD = HTTPMethod.PATCH
   final val BASE_PATH = "./prediction-job"
@@ -42,21 +43,21 @@ object PredictionJob {
     val model = PipelineModel.load(BASE_PATH+"/model")
 
     // Create Orion Source. Receive notifications on port 9001
-    val eventStream = ssc.receiverStream(new OrionReceiver(9001))
+    val eventStream = ssc.receiverStream(new NGSILDReceiver(9001))
 
     // Process event stream to get updated entities
     val processedDataStream = eventStream
       .flatMap(event => event.entities)
       .map(ent => {
         println(s"ENTITY RECEIVED: $ent")
-        //val year = ent.attrs("year").value.toString.toInt
-        val month = ent.attrs("month").value.toString.toInt
-        //val day = ent.attrs("day").value.toString.toInt
-        val name = ent.attrs("name").value.toString
-        val hour = ent.attrs("time").value.toString.toInt
-        val weekday = ent.attrs("weekday").value.toString.toInt
-        val socketId = ent.attrs("socketId").value.toString
-        val predictionId = ent.attrs("predictionId").value.toString
+        //val year = ent.attrs("year")("value").toString.toInt
+        val month = ent.attrs("month")("value").toString.toInt
+        //val day = ent.attrs("day")("value").toString.toInt
+        val name = ent.attrs("name")("value").toString
+        val hour = ent.attrs("time")("value").toString.toInt
+        val weekday = ent.attrs("weekday")("value").toString.toInt
+        val socketId = ent.attrs("socketId")("value").toString
+        val predictionId = ent.attrs("predictionId")("value").toString
         PredictionRequest(name, weekday, hour, month, socketId, predictionId)
       })
 

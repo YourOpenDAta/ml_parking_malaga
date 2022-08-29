@@ -4,7 +4,7 @@ const server = require('http').Server(app);
 const io = require('socket.io')(server);
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const URL_CB = process.env.URL_CB || "http://orion:1026/v2/entities";
+const URL_CB = process.env.URL_CB || "http://orion:1026/ngsi-ld/v1/entities/urn:ngsi-ld:ReqTicketPrediction1/attrs";
 const PORT = process.env.PORT ? (process.env.PORT) : 3000;
 const MONGO_URI = process.env.MONGO_URI || "mongodb://mongodb-svc:27017/sth_test";
 const fetch = require('cross-fetch')
@@ -22,7 +22,7 @@ const connectWithRetry = () => {
 connectWithRetry()
 
 const createAttr = (attr) => {
-    return { "value": attr, "type": isNaN(attr) ? "String" : "Integer" };
+    return { "value": attr, "type": "Property" };
 }
 
 
