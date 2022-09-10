@@ -3,8 +3,8 @@ curl -v  orion:1026/ngsi-ld/v1/subscriptions/ -s -S -H 'Content-Type: applicatio
   "description": "A subscription to get response predictions",
   "type": "Subscription",
   "entities": [{
-    "id": "urn:ngsi-ld:ResTicketPrediction1",
-    "type": "ResTicketPrediction"
+    "id": "urn:ngsi-ld:ResMalagaParkingPrediction1",
+    "type": "ResMalagaParkingPrediction"
     }],
   "watchedAttributes": [
       "predictionId",

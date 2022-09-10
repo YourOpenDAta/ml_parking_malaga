@@ -1,7 +1,7 @@
 curl orion:1026/ngsi-ld/v1/entities -s -S -H 'Content-Type: application/ld+json' -d @- <<EOF
 {
-    "id": "urn:ngsi-ld:ReqTicketPrediction1",
-    "type": "ReqTicketPrediction",
+    "id": "urn:ngsi-ld:ReqMalagaParkingPrediction1",
+    "type": "ReqMalagaParkingPrediction",
     "predictionId": {
         "value": 0,
         "type": "Property"
@@ -44,8 +44,8 @@ EOF
 
 curl orion:1026/ngsi-ld/v1/entities -s -S -H 'Content-Type: application/ld+json' -d @- <<EOF
 {
-  "id": "urn:ngsi-ld:ResTicketPrediction1",
-  "type": "ResTicketPrediction",
+  "id": "urn:ngsi-ld:ResMalagaParkingPrediction1",
+  "type": "ResMalagaParkingPrediction",
   "predictionId": {
     "value": "0",
     "type": "Property"

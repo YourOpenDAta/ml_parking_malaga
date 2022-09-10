@@ -22,7 +22,7 @@ case class PredictionRequest(name: String, weekday: Int, hour: Int, month: Int, 
 
 object PredictionJob {
 
-  final val URL_CB = "http://orion:1026/ngsi-ld/v1/entities/urn:ngsi-ld:ResTicketPrediction1/attrs"
+  final val URL_CB = "http://orion:1026/ngsi-ld/v1/entities/urn:ngsi-ld:ResMalagaParkingPrediction1/attrs"
   final val CONTENT_TYPE = ContentType.JSON
   final val METHOD = HTTPMethod.PATCH
   final val BASE_PATH = "./prediction-job"
@@ -35,7 +35,9 @@ object PredictionJob {
       .getOrCreate()
 
     spark.sparkContext.setLogLevel("WARN")
-
+    
+    println("STARTING")
+    
     val ssc = new StreamingContext(spark.sparkContext, Seconds(1))
 
 
@@ -88,8 +90,8 @@ object PredictionJob {
 
     // Add Orion Sink
     OrionSink.addSink(sinkDataStream)
-    sinkDataStream.print()
-    predictionDataStream.print()
+    //sinkDataStream.print()
+    //predictionDataStream.print()
     ssc.start()
     ssc.awaitTermination()
   }

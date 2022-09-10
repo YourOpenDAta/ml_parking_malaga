@@ -5,6 +5,8 @@ Based on the TFM thesis of Antonio Hurtado (https://github.com/tonihurtado/fiwar
 https://datosabiertos.malaga.eu/dataset/ocupacion-aparcamientos-publicos-municipales
 https://datosabiertos.malaga.eu/dataset/ubicacion-de-aparcamientos-publicos-municipales
 
+## Training
+
 * Clone this project
 
 
@@ -26,9 +28,11 @@ docker compose -f docker-compose.train.yml up -d
 
 * Test that the `prediction-job/model` folder is generated with the ML model
 
-* Run the whole scenario
+## Testing (Development)
+
+* Run the whole scenario in dev
 ```shell
-docker compose up -d
+docker compose -f docker-compose.dev.yml up -d
 ```
 
 * Open browser in http://localhost:3000
@@ -36,3 +40,61 @@ docker compose up -d
 * Select a date and time range
 
 * Predict!
+
+## Production (YODA)
+
+* Run the whole scenario in prod within YODA (only spark). You need to create the predictionEntities and the subscriptions like in the `entities` folder. They are required the creation of entities and the subscription of spark, the other is optional (it depends on the application)
+```shell
+docker compose up -d
+```
+
+* Example of petition made to ask for a prediction:
+
+```
+curl --location --request PATCH 'http://broker-yoda.dit.upm.es/ngsi-ld/v1/entities/urn:ngsi-ld:ReqMalagaParkingPrediction1/attrs' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+   "name":{
+      "type":"Property",
+      "value":"Camas"
+   },
+   "year":{
+      "type":"Property",
+      "value":2022
+   },
+   "month":{
+      "type":"Property",
+      "value":10
+   },
+   "day":{
+      "type":"Property",
+      "value":22
+   },
+   "weekday":{
+      "type":"Property",
+      "value":2
+   },
+   "time":{
+      "type":"Property",
+      "value":0
+   },
+   "predictionId":{
+      "type":"Property",
+      "value":"p-1662768034900"
+   },
+   "socketId":{
+      "type":"Property",
+      "value":"Fn0kKHEF-dOcr311AAAF"
+   }
+}'
+```
+
+Being:
+- name: Name of the station ["Salitre", "Cervantes","El_Palo","Av._de_Andalucia","Camas","Cruz_De_Humilladero","Alcazaba","San_Juan_De_La_Cruz","Pz._de_la_Marina" or "Tejon_y_Rodriguez"]
+- year: [2022, 2023, ...]
+- month: [1, 2, 3, ..., 12]
+- day: [1, 2, 3, ..., 31]
+- weekday: [1, ..., 7] 1 ->Sunday  7->Saturday
+- time: : [0, ... , 23]
+- predictionId: String to identify the prediction in the consuming application
+- socketId: String to identify the socket in the consuming application
