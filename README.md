@@ -98,3 +98,64 @@ Being:
 - time: : [0, ... , 23]
 - predictionId: String to identify the prediction in the consuming application
 - socketId: String to identify the socket in the consuming application
+
+### Testing everything worked
+
+1) Validate that the subscription and entities exist:
+```
+curl --location --request GET 'http://broker-yoda.dit.upm.es/ngsi-ld/v1/subscriptions/'
+```
+
+```
+curl --location --request GET 'http://broker-yoda.dit.upm.es/ngsi-ld/v1/entities/urn:ngsi-ld:ReqMalagaParkingPrediction1'
+```
+
+```
+curl --location --request GET 'http://broker-yoda.dit.upm.es/ngsi-ld/v1/entities/urn:ngsi-ld:ResMalagaParkingPrediction1'
+```
+
+2) Update the `ReqMalagaParkingPrediction1`
+```
+curl --location --request PATCH 'http://broker-yoda.dit.upm.es/ngsi-ld/v1/entities/urn:ngsi-ld:ReqMalagaParkingPrediction1/attrs' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+   "name":{
+      "type":"Property",
+      "value":"Salitre"
+   },
+   "year":{
+      "type":"Property",
+      "value":2022
+   },
+   "month":{
+      "type":"Property",
+      "value":10
+   },
+   "day":{
+      "type":"Property",
+      "value":22
+   },
+   "weekday":{
+      "type":"Property",
+      "value":2
+   },
+   "time":{
+      "type":"Property",
+      "value":0
+   },
+   "predictionId":{
+      "type":"Property",
+      "value":"p-1662768034900"
+   },
+   "socketId":{
+      "type":"Property",
+      "value":"Fn0kKHEF-dOcr311AAAF"
+   }
+}'
+```
+
+3) See if the `ResMalagaParkingPrediction1` changes
+
+```
+curl --location --request GET 'http://broker-yoda.dit.upm.es/ngsi-ld/v1/entities/urn:ngsi-ld:ResMalagaParkingPrediction1'
+```
