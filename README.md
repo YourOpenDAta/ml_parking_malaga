@@ -43,7 +43,10 @@ docker compose -f docker-compose.dev.yml up -d
 
 ## Production (YODA)
 
-* Run the whole scenario in prod within YODA (only spark). You need to create the predictionEntities and the subscriptions like in the `entities` folder. They are required the creation of entities and the subscription of spark, the other is optional (it depends on the application)
+* Run the whole scenario in prod within YODA (only spark). You need to create the predictionEntities and the subscriptions like in the `entities` folder. They are required the creation of entities and the subscription of spark, the other is optional, it depends on the application. There are two possibilities:
+   - The application receives a notification when the prediction is made and receives the `urn:ngsi-ld:ResMalagaParkingPrediction1`
+   - The application asks periodically to orion (`urn:ngsi-ld:ResMalagaParkingPrediction1`) and see if the prediction was made
+
 ```shell
 docker compose up -d
 ```
@@ -97,7 +100,7 @@ Being:
 - weekday: [1, ..., 7] 1 ->Sunday  7->Saturday
 - time: : [0, ... , 23]
 - predictionId: String to identify the prediction in the consuming application
-- socketId: String to identify the socket in the consuming application
+- socketId: String to identify the socket with the client in the consuming application
 
 ### Testing everything worked
 
@@ -159,3 +162,42 @@ curl --location --request PATCH 'http://broker-yoda.dit.upm.es/ngsi-ld/v1/entiti
 ```
 curl --location --request GET 'http://broker-yoda.dit.upm.es/ngsi-ld/v1/entities/urn:ngsi-ld:ResMalagaParkingPrediction1'
 ```
+
+Response:
+```
+{
+   "@context":"https://uri.etsi.org/ngsi-ld/v1/ngsi-ld-core-context.jsonld",
+   "id":"urn:ngsi-ld:ResMalagaParkingPrediction1",
+   "type":"ResMalagaParkingPrediction",
+   "socketId":{
+      "type":"Property",
+      "value":"Fn0kKHEF-dOcr311AAAF"
+   },
+   "predictionId":{
+      "type":"Property",
+      "value":"p-1662768034900"
+   },
+   "predictionValue":{
+      "type":"Property",
+      "value":60
+   },
+   "name":{
+      "type":"Property",
+      "value":"Salitre"
+   },
+   "weekday":{
+      "type":"Property",
+      "value":2
+   },
+   "time":{
+      "type":"Property",
+      "value":0
+   },
+   "month":{
+      "type":"Property",
+      "value":10
+   }
+}
+```
+Result of prediction: 60% of occupancy
+- predictionValue: % of occupancy
